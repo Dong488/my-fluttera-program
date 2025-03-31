@@ -28,12 +28,13 @@ class MainPageState extends BaseState {
 
   @override
   Widget localBuild(BuildContext context) {
+    List<Widget> pageList=[HomePage(), AnalysisPage(), TransactionPage(),MinePage()];
     return Scaffold(
       body: PageView(
         controller: controller.pageController,
         physics: const NeverScrollableScrollPhysics(), //禁止滑动
         //顶部视图
-        children: [HomePage(), AnalysisPage(), TransactionPage(),MinePage()],
+        children: pageList,
       ),
       bottomNavigationBar: GetBuilder(
         builder: (MainController controller) {
@@ -42,6 +43,15 @@ class MainPageState extends BaseState {
               //选中的下标
               controller.jumpToPage(index);
               print('heihei$index');
+
+              if(index==0){
+                (pageList[0] as HomePage).refresh();
+              }else if(index==1){
+                (pageList[1] as AnalysisPage).refresh();
+              }else if(index==2){
+                (pageList[2] as TransactionPage).refresh();
+
+              }
               // if(index==0){
               //   setStateColor(true);
               // }else if(index==1){

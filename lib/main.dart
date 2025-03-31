@@ -37,8 +37,8 @@ class MyAppState extends State<MyApp>{
           ),
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
-          // home: SplashPage(),
-          home: MainPage(),
+          home: SplashPage(),
+          // home: MainPage(),
           builder: EasyLoading.init(),
         ) ,) ;
       },

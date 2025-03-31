@@ -4,8 +4,21 @@ import '../utils/SPManager.dart';
 import '../utils/ToastUtil.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://your-api-url.com';
+  static const String baseUrl = "https://your-api-url.com";
 
+  Future<http.Response> postRequest(String endpoint, Map<String, dynamic> body) async {
+  final token = SPManager.instance.getToken();
+  final response = await http.post(
+    Uri.parse('$baseUrl$endpoint'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode(body),
+  );
+  return response;
+}
+  // login
   static Future<bool> login(String email, String password) async {
     try {
       final response = await http.post(
@@ -18,10 +31,10 @@ class ApiService {
         final data = jsonDecode(response.body);
         SPManager.instance.saveToken(data['token']);
         SPManager.instance.saveUserId(data['userId']);
-        ToastUtil.toast('Login Successful');
+        ToastUtil.toast('Login successful');
         return true;
       } else {
-        ToastUtil.toast('Login Failed: ${response.body}');
+        ToastUtil.toast('Login failed: ${response.body}');
         return false;
       }
     } catch (e) {
@@ -30,6 +43,7 @@ class ApiService {
     }
   }
 
+  // regist
   static Future<bool> register(String email, String password) async {
     try {
       final response = await http.post(
@@ -42,10 +56,10 @@ class ApiService {
         final data = jsonDecode(response.body);
         SPManager.instance.saveToken(data['token']);
         SPManager.instance.saveUserId(data['userId']);
-        ToastUtil.toast('Registration Successful');
+        ToastUtil.toast('Registration successful');
         return true;
       } else {
-        ToastUtil.toast('Registration Failed: ${response.body}');
+        ToastUtil.toast('Registration failed: ${response.body}');
         return false;
       }
     } catch (e) {
@@ -54,6 +68,7 @@ class ApiService {
     }
   }
 
+  // changepassword
   static Future<bool> changePassword(String email, String oldPassword, String newPassword) async {
     try {
       final response = await http.post(
@@ -63,10 +78,10 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        ToastUtil.toast('Password Changed Successfully');
+        ToastUtil.toast('Password changed successfully');
         return true;
       } else {
-        ToastUtil.toast('Password Change Failed: ${response.body}');
+        ToastUtil.toast('Failed to change password: ${response.body}');
         return false;
       }
     } catch (e) {

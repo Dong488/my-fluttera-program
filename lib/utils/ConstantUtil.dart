@@ -8,5 +8,7 @@ class ConstantUtil{
   static const String UserMap="userMap";//用户信息存储key
   static const String ExpenseMap="expenseMap";//花费存储key
   static const String IncomeMap="incomeMap";//收入存储key
+  static const String BudgetAmount="budgetAmount";//预算key
+  static const String MoneyAmount="moneyAmount";//存钱key
 
 }

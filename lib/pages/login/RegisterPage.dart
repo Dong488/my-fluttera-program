@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
-import 'package:flutter_account/pages/home/MainPage.dart';
-import 'package:flutter_account/pages/login/ForgetPswPage.dart';
+import 'package:flutter_account/pages/login/LoginPage.dart';
 import 'package:flutter_account/utils/CacheUtil.dart';
 import 'package:flutter_account/utils/ConstantUtil.dart';
 import 'package:flutter_account/utils/ToastUtil.dart';
@@ -12,16 +11,19 @@ import '../../utils/MyFontConstant.dart';
 import '../../utils/NavigateUtil.dart';
 import '../../views/CustomButton.dart';
 import '../home/HomePage.dart';
-import 'RegisterPage.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
+  int type = 1;
+
+  RegisterPage({super.key, this.type = 1});
+
   @override
   State<StatefulWidget> createState() {
-    return LoginPageState();
+    return RegisterPageState();
   }
 }
 
-class LoginPageState extends BaseState<LoginPage> {
+class RegisterPageState extends BaseState<RegisterPage> {
   @override
   void localAInit() {
     // TODO: implement localAInit
@@ -31,6 +33,7 @@ class LoginPageState extends BaseState<LoginPage> {
   Widget localBuild(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController pswController = TextEditingController();
+    TextEditingController confirmPswController = TextEditingController();
 
     return Scaffold(
       body: Container(
@@ -43,7 +46,7 @@ class LoginPageState extends BaseState<LoginPage> {
               height: 78.h,
             ),
             Text(
-              MyFontConstant.font_welcome,
+              MyFontConstant.font_create_acc,
               style: TextStyle(
                   fontSize: 30.sp,
                   color: Colors.black,
@@ -67,7 +70,7 @@ class LoginPageState extends BaseState<LoginPage> {
                     Container(
                       width: double.infinity,
                       margin:
-                          EdgeInsets.only(left: 60.w, top: 95.h, bottom: 14.h),
+                          EdgeInsets.only(left: 60.w, top: 27.h, bottom: 14.h),
                       child: Text(
                         MyFontConstant.font_u_e,
                         style: TextStyle(
@@ -147,6 +150,48 @@ class LoginPageState extends BaseState<LoginPage> {
                                     BorderSide(color: Colors.transparent))),
                       ),
                     ),
+                    Container(
+                      width: double.infinity,
+                      margin:
+                          EdgeInsets.only(left: 60.w, top: 30.h, bottom: 14.h),
+                      child: Text(
+                        MyFontConstant.font_con_psw,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: ColorsUtil.publicFontColor),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 41.h,
+                      width: 356.w,
+                      child: TextField(
+                        obscureText: true,
+                        controller: confirmPswController,
+                        onChanged: (value) {
+                          bool state = value.isNotEmpty;
+                        },
+                        style: TextStyle(
+                            color: ColorsUtil.publicFontColor, fontSize: 16.sp),
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 16.w, top: 0, bottom: 0),
+                            filled: true,
+                            fillColor: ColorsUtil.color_DFF7E2,
+                            hintText: MyFontConstant.font_con_psw,
+                            hintStyle: TextStyle(
+                                color: ColorsUtil.hintColor, fontSize: 16.sp),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(40.r)),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(40.r)),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent))),
+                      ),
+                    ),
                     SizedBox(
                       height: 90.h,
                     ),
@@ -154,7 +199,7 @@ class LoginPageState extends BaseState<LoginPage> {
                       buttonWidth: 207.w,
                       buttonHeight: 45.h,
                       buttonRadius: 30.r,
-                      buttonFont: MyFontConstant.font_log_in,
+                      buttonFont: MyFontConstant.font_sign_up,
                       buttonBackgroundColor: ColorsUtil.primaryColor,
                       buttonFontColor: ColorsUtil.publicFontColor,
                       onTab: () async {
@@ -168,34 +213,49 @@ class LoginPageState extends BaseState<LoginPage> {
                           ToastUtil.toast(MyFontConstant.font_enter_psw);
                           return;
                         }
+                        String confirmPsw = confirmPswController.text;
 
-                        bool success = await ApiService.login(emailStr, pswStr);
+                        if (confirmPsw != pswStr) {
+                          ToastUtil.toast(MyFontConstant.font_two_passwords);
+                          return;
+                        }
+
+                        bool success =
+                            await ApiService.register(emailStr, pswStr);
                         if (success) {
-                          NavigateUtil.offAll(MainPage());
+                          NavigateUtil.offAll(LoginPage());
                         }
                       },
                     ),
                     SizedBox(
-                      height: 12.h,
+                      height: 20.h,
                     ),
-                    GestureDetector(
-                        onTap: () => {NavigateUtil.to(ForgetPswPage())},
-                        child: Text(
-                          MyFontConstant.font_forPws,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    CustomButton(
-                      buttonWidth: 207.w,
-                      buttonHeight: 45.h,
-                      buttonRadius: 30.r,
-                      buttonFont: MyFontConstant.font_sign_up,
-                      buttonBackgroundColor: ColorsUtil.color_DFF7E2,
-                      buttonFontColor: Colors.black,
-                      onTab: () => {NavigateUtil.to(RegisterPage())},
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          MyFontConstant.font_alr_have_acc,
+                          style: TextStyle(
+                              fontSize: 13.sp,
+                              color: ColorsUtil.publicFontColor),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (widget.type == 2) {
+                              NavigateUtil.offAll(LoginPage());
+                            } else {
+                              NavigateUtil.back();
+                            }
+                          },
+                          child: Text(
+                            MyFontConstant.font_log_in,
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                color: ColorsUtil.color_3299FF),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

@@ -1,3 +1,4 @@
+
 import 'package:common_utils/common_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,66 +12,79 @@ class SPManager{
   factory SPManager (){
     return _getInstance();
   }
-
+  // 静态、同步、私有访问点
   static SPManager _getInstance() {
     return _instance;
   }
 
+  ///私有构造方法
   SPManager._();
 
+
+  ///需要再main.datt中先调用
   initSp() async {
     if(sp == null){
       sp = await SharedPreferences.getInstance();
     }
-    LogUtil.v("SharedPreferences initialized");
+    LogUtil.v("需要再main.datt中先调用");
   }
 
-  void put(String key, dynamic value) {
-    if (value is String) {
+  put (String key,var value) {
+    if(value is String){
       sp!.setString(key, value);
-    } else if (value is int) {
+    }else if(value is int){
       sp!.setInt(key, value);
-    } else if (value is bool) {
+    }else if(value is bool){
       sp!.setBool(key, value);
-    } else if (value is double) {
+    }else if(value is double){
       sp!.setDouble(key, value);
     }
   }
-
-  T? get<T>(String key) {
+  T? get<T> (String key) {
     var value = sp!.get(key);
     return value as T?;
   }
 
-  String? getToken() {
-    return sp!.getString("token");
+  String? getToken(){
+    return sp!.get("token") as String?;
   }
 
-  void saveToken(String token) {
+  saveToken(String token){
     put("token", token);
   }
 
-  dynamic getUserId() {
-    return sp!.getString("userId");
+  dynamic getUserId(){
+    return sp!.get("userId");
   }
 
-  void saveUserId(String userId) {
+  saveUserId(var userId){
     put("userId", userId);
   }
 
-  void clear() {
+  dynamic getImToken(){
+    return sp!.get("imToken");
+  }
+
+  saveImToken(var imToken){
+    put("imToken", imToken);
+  }
+
+  clear(){
     sp!.clear();
   }
 
-  void remove(String key) {
+  remove(String key){
     sp!.remove(key);
   }
 
-  bool containsKey(String key) {
+  bool containsKey(String key){
     return sp!.containsKey(key);
   }
 
-  bool isLogin() {
-    return getToken() != null;
+  bool isLogin(){
+    if(getToken() != null){
+      return true;
+    }
+    return false;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
 import 'package:flutter_account/pages/login/LoginPage.dart';
+import 'package:flutter_account/pages/mine/SecurityPage.dart';
+import 'package:flutter_account/pages/mine/SettingPage.dart';
 import 'package:flutter_account/utils/CacheUtil.dart';
 import 'package:flutter_account/utils/NavigateUtil.dart';
 import 'package:flutter_account/utils/ToastUtil.dart';
@@ -11,6 +13,8 @@ import 'package:get/get.dart';
 import '../../utils/ColorsUtil.dart';
 import '../../utils/ConstantUtil.dart';
 import '../../utils/MyFontConstant.dart';
+import 'HelpPage.dart';
+import 'InfoPage.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -66,32 +70,32 @@ class MinePageState extends BaseState<MinePage> {
                       SizedBox(
                         height: 150.h,
                       ),
+                      // GestureDetector(
+                      //   behavior: HitTestBehavior.opaque,
+                      //   onTap: () {
+                      //     NavigateUtil.to(InfoPage());
+                      //   },
+                      //   child: Row(
+                      //     children: [
+                      //       Image.asset(
+                      //         "images/icon_mine_info.png",
+                      //         width: 57.w,
+                      //         height: 53.w,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 13.w,
+                      //       ),
+                      //       Text(MyFontConstant.font_edit_profile)
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 34.h,
+                      // ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          ToastUtil.toast(MyFontConstant.font_edit_profile);
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "images/icon_mine_info.png",
-                              width: 57.w,
-                              height: 53.w,
-                            ),
-                            SizedBox(
-                              width: 13.w,
-                            ),
-                            Text(MyFontConstant.font_edit_profile)
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 34.h,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          ToastUtil.toast(MyFontConstant.font_security);
+                          NavigateUtil.to(SecurityPage());
                         },
                         child: Row(
                           children: [
@@ -113,7 +117,8 @@ class MinePageState extends BaseState<MinePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          ToastUtil.toast(MyFontConstant.font_setting);
+                          NavigateUtil.to(SettingPage());
+
                         },
                         child: Row(
                           children: [
@@ -135,8 +140,7 @@ class MinePageState extends BaseState<MinePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          ToastUtil.toast(MyFontConstant.font_help);
-                        },
+                          NavigateUtil.to(HelpPage());},
                         child: Row(
                           children: [
                             Image.asset(

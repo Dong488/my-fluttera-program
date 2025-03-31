@@ -19,7 +19,7 @@ class UIUtil {
   static String mapToString(Map<String, String> paramMap) {
     String str = "";
     paramMap.forEach((key, value) {
-      str += (key + "-" + value + ",");
+      str += (key + "--" + value + "++");
     });
 
     return str;
@@ -28,15 +28,14 @@ class UIUtil {
   static Map<String, String> stringToMap(String str) {
     Map<String, String> map = Map();
     if (str.isNotEmpty) {
-      List<String> oneList = str.split(",");
+      List<String> oneList = str.split("++");
       oneList.forEach((element) {
-        List<String> twoList = element.split("-");
+        List<String> twoList = element.split("--");
         if (twoList.length > 1) {
           map[twoList[0]] = twoList[1];
         }
       });
     }
-
     return map;
   }
 
@@ -48,5 +47,26 @@ class UIUtil {
 
     String str_year = "${year}-$month-$day";
     return str_year;
+  }
+
+  ///获取近七天的日期
+  static List<String> getLastSevenDate() {
+    List<String> dates = [];
+    DateTime now = DateTime.now();
+
+    for (int i = 6; i >=0; i--) {
+      DateTime date = now.subtract(Duration(days: i));
+      String formattedDate = "${date.year}-${date.month}-${date.day}";
+      dates.add(formattedDate);
+    }
+    return dates;
+  }
+  ///只保留日期
+  static String getOnlyDay(String formatStr) {
+    List<String> strList=formatStr.split("-");
+    if(strList.isNotEmpty){
+      return strList[strList.length-1];
+    }
+    return "";
   }
 }

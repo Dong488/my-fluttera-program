@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
 import 'package:flutter_account/pages/login/ForgetPswPage.dart';
 import 'package:flutter_account/pages/login/LoginPage.dart';
-import 'package:flutter_account/pages/login/RegistPage.dart';
+import 'package:flutter_account/pages/login/RegisterPage.dart';
 import 'package:flutter_account/utils/NavigateUtil.dart';
 import 'package:flutter_account/utils/ToastUtil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,7 +68,7 @@ class LoginHomePageState extends BaseState<LoginHomePage> {
                   buttonFont: MyFontConstant.font_sign_up,
                   buttonBackgroundColor: ColorsUtil.color_DFF7E2,
                   buttonFontColor: Colors.black,
-                  onTab: () => {NavigateUtil.offAll(RegistPage())},
+                  onTab: () => {NavigateUtil.offAll(RegisterPage(type: 2,))},
                 ),
                 SizedBox(height: 12.h,),
                 GestureDetector(

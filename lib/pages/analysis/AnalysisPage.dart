@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mrx_charts/mrx_charts.dart';
 
+import '../../utils/CacheUtil.dart';
 import '../../utils/ColorsUtil.dart';
 import '../../utils/MyFontConstant.dart';
 import '../../utils/NavigateUtil.dart';
@@ -13,10 +14,17 @@ import '../../utils/UIUtil.dart';
 import '../transaction/AddExpensesPage.dart';
 
 class AnalysisPage extends StatefulWidget {
+  String allAmount = CacheUtil.allExpense();
+  String allIncome = CacheUtil.allIncome();
+  List<String> dataList=UIUtil.getLastSevenDate();
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return AnalysisPageState();
+  }
+  void refresh() {
+     allAmount = CacheUtil.allExpense();
+     allIncome = CacheUtil.allIncome();
   }
 }
 
@@ -60,7 +68,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                       height: 10.h,
                     ),
                     Text(
-                      "\$23120",
+                      "\$${widget.allIncome}",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -89,7 +97,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                       height: 10.h,
                     ),
                     Text(
-                      "-\$14120",
+                      "-\$${widget.allAmount}",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -125,7 +133,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                       color: ColorsUtil.color_DFF7E2),
                   child: Column(
                     children: [
-                      Text("Income & Expenses",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),),
+                      Text(MyFontConstant.font_in_ex,style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),),
                       SizedBox(height: 20.h,),
                       Expanded(child: Chart(
                         layers: layers(),
@@ -159,7 +167,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text("\$23120",
+                        Text("\$${CacheUtil.getLastSevenMoneyCount(1)}",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
@@ -183,7 +191,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text("\$14120",
+                        Text("\$${CacheUtil.getLastSevenMoneyCount(2)}",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
@@ -202,21 +210,27 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
   }
 
   List<ChartLayer> layers() {
+    List<int> timeList = [];
+    CacheUtil.expenseMap.keys.forEach((element) {
+      timeList.add(int.parse(element));
+    });
+    timeList.sort((a, b) => a.compareTo(b));
+
     return [
       ChartAxisLayer(
         settings: ChartAxisSettings(
           x: ChartAxisSettingsAxis(
             frequency: 1.0,
-            max: 7.0,
-            min: 1,
+            max: 6.0,
+            min: 0,
             textStyle: TextStyle(
               color: Colors.black,
               fontSize: 10.0,
             ),
           ),
           y: ChartAxisSettingsAxis(
-            frequency: 2000.0,
-            max: 6000.0,
+            frequency: 1000.0,
+            max: 5000.0,
             min: 0.0,
             textStyle: TextStyle(
               color: Colors.black,
@@ -224,7 +238,10 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
             ),
           ),
         ),
-        labelX: (value) => value.toInt().toString(),
+        labelX: (value) {
+
+          return UIUtil.getOnlyDay(widget.dataList[value.toInt()]);
+        } ,
         labelY: (value) => value.toInt().toString(),
       ),
       ChartGroupBarLayer(
@@ -233,13 +250,13 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
           (index) => [
             ChartGroupBarDataItem(
               color: const Color(0xFF00D09E),
-              x: index + 1,
-              value: Random().nextInt(2800) + 2000,
+              x: index +0,
+              value: CacheUtil.getDateMoney(widget.dataList[index], 1),
             ),
             ChartGroupBarDataItem(
               color: const Color(0xFF0068FF),
-              x: index + 1,
-              value: Random().nextInt(2800) + 2000,
+              x: index +0,
+              value: CacheUtil.getDateMoney(widget.dataList[index], 2),
             ),
           ],
         ),

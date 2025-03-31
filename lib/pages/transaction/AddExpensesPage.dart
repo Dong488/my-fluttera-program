@@ -16,7 +16,7 @@ import '../../controllers/MainController.dart';
 import '../../utils/ColorsUtil.dart';
 
 class AddExpensesPage extends StatefulWidget {
-  int index;
+  int index=0;
   int type; //1消费 2收入
 
   AddExpensesPage({super.key, this.index = 0, this.type = 1});
@@ -214,6 +214,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                       onTap: () {
                                         setState(() {
                                           choiceType = UIUtil.nameList[index];
+                                          widget.index=index;
                                         });
                                         Get.back();
                                       },
@@ -403,16 +404,17 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                               MyFontConstant.font_ple_expense_title);
                           return;
                         }
-                        if(widget.type == 1){
-                          //花费
-                          ToastUtil.toast("Expense");
-
-                        }else{
-                          //收入
-                          ToastUtil.toast("Income");
-                        }
+                        // if(widget.type == 1){
+                        //   //花费
+                        //   ToastUtil.toast("Expense");
+                        //
+                        // }else{
+                        //   //收入
+                        //   ToastUtil.toast("Income");
+                        // }
                         CacheUtil.addExpense(
-                            choiceTime, choiceType, amount, title);
+                            choiceTime, choiceType, amount, title,"${widget.index}");
+
                         ToastUtil.toast(MyFontConstant.font_s_s);
                         Get.back();
                       })
