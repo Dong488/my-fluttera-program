@@ -7,7 +7,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T>{
   void initState() {
     super.initState();
     LogUtil.init(isDebug: true);
-    LogUtil.e(tag: "PageName",runtimeType.toString());
+    LogUtil.e(tag: "PageName",this.runtimeType.toString());
     setStateColor(initStateBarFontBlack());
     localAInit();
   }

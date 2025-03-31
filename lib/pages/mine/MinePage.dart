@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
 import 'package:flutter_account/pages/login/LoginPage.dart';
-import 'package:flutter_account/pages/mine/SecurityPage.dart';
-import 'package:flutter_account/pages/mine/SettingPage.dart';
 import 'package:flutter_account/utils/CacheUtil.dart';
 import 'package:flutter_account/utils/NavigateUtil.dart';
+import 'package:flutter_account/utils/ToastUtil.dart';
+import 'package:flutter_account/utils/UIUtil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../utils/ColorsUtil.dart';
+import '../../utils/ConstantUtil.dart';
 import '../../utils/MyFontConstant.dart';
-import 'HelpPage.dart';
 
 class MinePage extends StatefulWidget {
-  const MinePage({super.key});
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -67,32 +66,32 @@ class MinePageState extends BaseState<MinePage> {
                       SizedBox(
                         height: 150.h,
                       ),
-                      // GestureDetector(
-                      //   behavior: HitTestBehavior.opaque,
-                      //   onTap: () {
-                      //     NavigateUtil.to(InfoPage());
-                      //   },
-                      //   child: Row(
-                      //     children: [
-                      //       Image.asset(
-                      //         "images/icon_mine_info.png",
-                      //         width: 57.w,
-                      //         height: 53.w,
-                      //       ),
-                      //       SizedBox(
-                      //         width: 13.w,
-                      //       ),
-                      //       Text(MyFontConstant.font_edit_profile)
-                      //     ],
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 34.h,
-                      // ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          NavigateUtil.to(SecurityPage());
+                          ToastUtil.toast(MyFontConstant.font_edit_profile);
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "images/icon_mine_info.png",
+                              width: 57.w,
+                              height: 53.w,
+                            ),
+                            SizedBox(
+                              width: 13.w,
+                            ),
+                            Text(MyFontConstant.font_edit_profile)
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 34.h,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          ToastUtil.toast(MyFontConstant.font_security);
                         },
                         child: Row(
                           children: [
@@ -104,7 +103,7 @@ class MinePageState extends BaseState<MinePage> {
                             SizedBox(
                               width: 13.w,
                             ),
-                            const Text(MyFontConstant.font_security)
+                            Text(MyFontConstant.font_security)
                           ],
                         ),
                       ),
@@ -114,8 +113,7 @@ class MinePageState extends BaseState<MinePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          NavigateUtil.to(SettingPage());
-
+                          ToastUtil.toast(MyFontConstant.font_setting);
                         },
                         child: Row(
                           children: [
@@ -127,7 +125,7 @@ class MinePageState extends BaseState<MinePage> {
                             SizedBox(
                               width: 13.w,
                             ),
-                            const Text(MyFontConstant.font_setting)
+                            Text(MyFontConstant.font_setting)
                           ],
                         ),
                       ),
@@ -137,7 +135,8 @@ class MinePageState extends BaseState<MinePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          NavigateUtil.to(HelpPage());},
+                          ToastUtil.toast(MyFontConstant.font_help);
+                        },
                         child: Row(
                           children: [
                             Image.asset(
@@ -148,7 +147,7 @@ class MinePageState extends BaseState<MinePage> {
                             SizedBox(
                               width: 13.w,
                             ),
-                            const Text(MyFontConstant.font_help)
+                            Text(MyFontConstant.font_help)
                           ],
                         ),
                       ),
@@ -159,7 +158,7 @@ class MinePageState extends BaseState<MinePage> {
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
                           CacheUtil.logout();
-                          NavigateUtil.offAll(const LoginPage());
+                          NavigateUtil.offAll(LoginPage());
                         },
                         child: Row(
                           children: [
@@ -171,7 +170,7 @@ class MinePageState extends BaseState<MinePage> {
                             SizedBox(
                               width: 13.w,
                             ),
-                            const Text(MyFontConstant.font_logout)
+                            Text(MyFontConstant.font_logout)
                           ],
                         ),
                       ),

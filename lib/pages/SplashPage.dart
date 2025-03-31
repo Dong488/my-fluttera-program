@@ -7,11 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bases/BaseState.dart';
 import '../utils/NavigateUtil.dart';
+import '../utils/SPManager.dart';
+import 'home/HomePage.dart';
 import 'home/MainPage.dart';
+import 'login/LoginPage.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -27,9 +28,9 @@ class _SplashPageState extends BaseState {
     Future.delayed(const Duration(milliseconds: 1000),(){
      String? accountName= CacheUtil.userMap["accountName"];
       if(accountName!=null&&accountName.isNotEmpty){
-        return NavigateUtil.offAll(const MainPage());
+        return NavigateUtil.offAll(MainPage());
       }else{
-        return NavigateUtil.offAll(const LoginHomePage());
+        return NavigateUtil.offAll(LoginHomePage());
       }
     });
   }
@@ -42,7 +43,7 @@ class _SplashPageState extends BaseState {
         height: double.infinity,
         width: double.infinity,
         child: Center(
-          child: SizedBox(
+          child: Container(
             height: 220.h,
             child: Column(
               children: [

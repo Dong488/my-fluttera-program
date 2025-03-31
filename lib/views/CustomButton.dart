@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../bases/BaseState.dart';
@@ -37,17 +38,17 @@ class CustomButtonState extends BaseState<CustomButton> {
 
   @override
   Widget localBuild(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: widget.buttonWidth,
       height: widget.buttonHeight,
       child: ElevatedButton(
           style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(
+              backgroundColor: MaterialStateProperty.all(
                   widget.buttonBackgroundColor ?? Colors.white),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(widget.buttonRadius ?? 0))), //圆角弧度
-              textStyle: WidgetStateProperty.all(
+              textStyle: MaterialStateProperty.all(
                   TextStyle(fontSize: widget.buttonFontSize))),
           onPressed: widget.onTab,
           child: Text(widget.buttonFont,style: TextStyle(fontWeight:FontWeight.bold,color: widget.buttonFontColor),)),

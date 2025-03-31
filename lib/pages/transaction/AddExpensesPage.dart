@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_account/bases/BaseState.dart';
@@ -11,10 +12,11 @@ import 'package:flutter_account/views/CustomButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/MainController.dart';
 import '../../utils/ColorsUtil.dart';
 
 class AddExpensesPage extends StatefulWidget {
-  int index=0;
+  int index;
   int type; //1消费 2收入
 
   AddExpensesPage({super.key, this.index = 0, this.type = 1});
@@ -140,9 +142,9 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                                   0]!
                                               .day;
 
-                                      String strYear = "$year-$month-$day";
+                                      String str_year = "${year}-$month-$day";
                                       setState(() {
-                                        choiceTime = strYear;
+                                        choiceTime = str_year;
                                       });
                                       Get.back();
                                     },
@@ -169,7 +171,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  choiceTime,
+                                  "$choiceTime",
                                   style: TextStyle(
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.bold),
@@ -212,7 +214,6 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                       onTap: () {
                                         setState(() {
                                           choiceType = UIUtil.nameList[index];
-                                          widget.index=index;
                                         });
                                         Get.back();
                                       },
@@ -221,7 +222,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              UIUtil.nameList[index],
+                                              "${UIUtil.nameList[index]}",
                                               style: TextStyle(fontSize: 30.sp),
                                             ),
                                             SizedBox(
@@ -259,7 +260,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  choiceType,
+                                  "$choiceType",
                                   style: TextStyle(
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.bold),
@@ -293,7 +294,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Text("\$"),
+                              Text("\$"),
                               SizedBox(
                                 width: 5.w,
                               ),
@@ -308,7 +309,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                         RegExp("[0-9.]"),
                                         allow: true),
                                   ],
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: MyFontConstant.font_ple_amount,
                                     // 输入框标签
 
@@ -355,7 +356,7 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                                 flex: 1,
                                 child: TextField(
                                   controller: titleController,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText:
                                         MyFontConstant.font_ple_expense_title,
                                     contentPadding: EdgeInsets.all(0),
@@ -402,17 +403,16 @@ class AddExpensesPageState extends BaseState<AddExpensesPage> {
                               MyFontConstant.font_ple_expense_title);
                           return;
                         }
-                        // if(widget.type == 1){
-                        //   //花费
-                        //   ToastUtil.toast("Expense");
-                        //
-                        // }else{
-                        //   //收入
-                        //   ToastUtil.toast("Income");
-                        // }
-                        CacheUtil.addExpense(
-                            choiceTime, choiceType, amount, title,"${widget.index}");
+                        if(widget.type == 1){
+                          //花费
+                          ToastUtil.toast("Expense");
 
+                        }else{
+                          //收入
+                          ToastUtil.toast("Income");
+                        }
+                        CacheUtil.addExpense(
+                            choiceTime, choiceType, amount, title);
                         ToastUtil.toast(MyFontConstant.font_s_s);
                         Get.back();
                       })

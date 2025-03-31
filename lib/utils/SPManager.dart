@@ -1,4 +1,3 @@
-
 import 'package:common_utils/common_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,83 +5,72 @@ class SPManager{
 
   SharedPreferences? sp ;
 
-  static final SPManager _instance = SPManager._();
+  static SPManager _instance = SPManager._();
   static SPManager get instance => _instance;
 
   factory SPManager (){
     return _getInstance();
   }
-  // 静态、同步、私有访问点
+
   static SPManager _getInstance() {
     return _instance;
   }
 
-  ///私有构造方法
   SPManager._();
 
-
-  ///需要再main.datt中先调用
   initSp() async {
-    sp ??= await SharedPreferences.getInstance();
-    LogUtil.v("需要再main.datt中先调用");
+    if(sp == null){
+      sp = await SharedPreferences.getInstance();
+    }
+    LogUtil.v("SharedPreferences initialized");
   }
 
-  put (String key,var value) {
-    if(value is String){
+  void put(String key, dynamic value) {
+    if (value is String) {
       sp!.setString(key, value);
-    }else if(value is int){
+    } else if (value is int) {
       sp!.setInt(key, value);
-    }else if(value is bool){
+    } else if (value is bool) {
       sp!.setBool(key, value);
-    }else if(value is double){
+    } else if (value is double) {
       sp!.setDouble(key, value);
     }
   }
-  T? get<T> (String key) {
+
+  T? get<T>(String key) {
     var value = sp!.get(key);
     return value as T?;
   }
 
-  String? getToken(){
-    return sp!.get("token") as String?;
+  String? getToken() {
+    return sp!.getString("token");
   }
 
-  saveToken(String token){
+  void saveToken(String token) {
     put("token", token);
   }
 
-  dynamic getUserId(){
-    return sp!.get("userId");
+  dynamic getUserId() {
+    return sp!.getString("userId");
   }
 
-  saveUserId(var userId){
+  void saveUserId(String userId) {
     put("userId", userId);
   }
 
-  dynamic getImToken(){
-    return sp!.get("imToken");
-  }
-
-  saveImToken(var imToken){
-    put("imToken", imToken);
-  }
-
-  clear(){
+  void clear() {
     sp!.clear();
   }
 
-  remove(String key){
+  void remove(String key) {
     sp!.remove(key);
   }
 
-  bool containsKey(String key){
+  bool containsKey(String key) {
     return sp!.containsKey(key);
   }
 
-  bool isLogin(){
-    if(getToken() != null){
-      return true;
-    }
-    return false;
+  bool isLogin() {
+    return getToken() != null;
   }
 }

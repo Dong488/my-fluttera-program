@@ -3,25 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mrx_charts/mrx_charts.dart';
 
-import '../../utils/CacheUtil.dart';
 import '../../utils/ColorsUtil.dart';
 import '../../utils/MyFontConstant.dart';
+import '../../utils/NavigateUtil.dart';
+import '../../utils/UIUtil.dart';
+import '../transaction/AddExpensesPage.dart';
 
 class AnalysisPage extends StatefulWidget {
-  String allAmount = CacheUtil.allExpense(1);
-  String allIncome = CacheUtil.allExpense(2);
-
-  AnalysisPage({super.key});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return AnalysisPageState();
-  }
-  void refresh() {
-     allAmount = CacheUtil.allExpense(1);
-     allIncome = CacheUtil.allExpense(2);
   }
 }
 
@@ -65,7 +60,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                       height: 10.h,
                     ),
                     Text(
-                      "\$${widget.allIncome}",
+                      "\$23120",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -94,7 +89,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                       height: 10.h,
                     ),
                     Text(
-                      "-\$${widget.allAmount}",
+                      "-\$14120",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -164,7 +159,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text("\$${widget.allIncome}",
+                        Text("\$23120",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
@@ -188,7 +183,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text("\$${widget.allAmount}",
+                        Text("\$14120",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
@@ -207,19 +202,13 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
   }
 
   List<ChartLayer> layers() {
-    List<int> timeList = [];
-    for (var element in CacheUtil.expenseMap.keys) {
-      timeList.add(int.parse(element));
-    }
-    timeList.sort((a, b) => a.compareTo(b));
-
     return [
       ChartAxisLayer(
-        settings: const ChartAxisSettings(
+        settings: ChartAxisSettings(
           x: ChartAxisSettingsAxis(
             frequency: 1.0,
-            max: 6.0,
-            min: 0,
+            max: 7.0,
+            min: 1,
             textStyle: TextStyle(
               color: Colors.black,
               fontSize: 10.0,
@@ -235,10 +224,7 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
             ),
           ),
         ),
-        labelX: (value) {
-
-          return "${value.toInt()+1}";
-        } ,
+        labelX: (value) => value.toInt().toString(),
         labelY: (value) => value.toInt().toString(),
       ),
       ChartGroupBarLayer(
@@ -247,12 +233,12 @@ class AnalysisPageState extends BaseState<AnalysisPage> {
           (index) => [
             ChartGroupBarDataItem(
               color: const Color(0xFF00D09E),
-              x: index +0,
+              x: index + 1,
               value: Random().nextInt(2800) + 2000,
             ),
             ChartGroupBarDataItem(
               color: const Color(0xFF0068FF),
-              x: index +0,
+              x: index + 1,
               value: Random().nextInt(2800) + 2000,
             ),
           ],

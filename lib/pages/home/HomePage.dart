@@ -1,27 +1,17 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_account/bases/BaseState.dart';
-import 'package:flutter_account/utils/CacheUtil.dart';
 import 'package:flutter_account/utils/MyFontConstant.dart';
 import 'package:flutter_account/utils/UIUtil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/MainController.dart';
 import '../../utils/ColorsUtil.dart';
 
 class HomePage extends StatefulWidget {
-  String allAmount = CacheUtil.allExpense(1);
-  String allIncome = CacheUtil.allExpense(2);
-
-  HomePage({super.key});
-
   @override
   State<StatefulWidget> createState() {
     return HomePageState();
-  }
-
-  void refresh() {
-    allAmount = CacheUtil.allExpense(1);
-    allIncome = CacheUtil.allExpense(2);
   }
 }
 
@@ -63,7 +53,7 @@ class HomePageState extends BaseState<HomePage> {
                       height: 10.h,
                     ),
                     Text(
-                      "\$${widget.allIncome}",
+                      "\$7000",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -92,7 +82,7 @@ class HomePageState extends BaseState<HomePage> {
                       height: 10.h,
                     ),
                     Text(
-                      "-\$${widget.allAmount}",
+                      "-\$1250",
                       style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -183,7 +173,7 @@ class HomePageState extends BaseState<HomePage> {
                                     style: TextStyle(fontSize: 12.sp),
                                   ),
                                   Text(
-                                    "\$${CacheUtil.oneExpense("Income")}",
+                                    "\$5000",
                                     style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.bold),
@@ -216,7 +206,7 @@ class HomePageState extends BaseState<HomePage> {
                                     style: TextStyle(fontSize: 12.sp),
                                   ),
                                   Text(
-                                    "-\$${CacheUtil.oneExpense("Food")}",
+                                    "-\$400",
                                     style: TextStyle(
                                         color: ColorsUtil.color_0068FF,
                                         fontSize: 15.sp,
@@ -236,7 +226,60 @@ class HomePageState extends BaseState<HomePage> {
                 ),
                 Expanded(
                     child: Container(
-                  child: _getExpenseList(),
+                  child: ListView.builder(
+                      itemCount: 10,
+
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(top: 24.h),
+                          child: Row(
+                            children: [
+                              SizedBox(width: 37.w,),
+
+                              Image.asset(
+                                UIUtil.imgList[index % 6],
+                                width: 53.w,
+                                height: 53.w,
+                              ),
+                              SizedBox(
+                                width: 16.w,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    UIUtil.nameList[index % 6],
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                  Text(
+                                    "2025-3-10",
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorsUtil.color_0068FF),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 16.w,),
+                              Expanded(
+                                  child: Text(
+                                    "I have a transaction",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                              SizedBox(width: 16.w,),
+
+                              Text(index%2==1?"\$3000":"-\$200",style: TextStyle(fontWeight: FontWeight.bold,color: index%2==1?Colors.black:ColorsUtil.color_0068FF),),
+                              SizedBox(width: 37.w,),
+
+                            ],
+                          ),
+                        );
+                      }),
                 )),
                 SizedBox(
                   height: 30.h,
@@ -247,102 +290,6 @@ class HomePageState extends BaseState<HomePage> {
         ],
       ),
     ));
-  }
-
-  Widget _getExpenseList() {
-    List<int> timeList = [];
-    for (var element in CacheUtil.expenseMap.keys) {
-      timeList.add(int.parse(element));
-    }
-    timeList.sort((a, b) => b.compareTo(a));
-
-    return ListView.builder(
-        itemCount: timeList.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(top: 24.h),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 37.w,
-                ),
-                Image.asset(
-                  UIUtil.imgList[
-                      int.parse(_getValue("${timeList[index]}", "index"))],
-                  width: 53.w,
-                  height: 53.w,
-                ),
-                SizedBox(
-                  width: 16.w,
-                ),
-                Column(
-                  children: [
-                    Text(
-                      UIUtil.nameList[
-                          int.parse(_getValue("${timeList[index]}", "index"))],
-                      style: TextStyle(
-                          fontSize: 15.sp, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    Text(
-                      _getValue("${timeList[index]}", "date"),
-                      style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtil.color_0068FF),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 16.w,
-                ),
-                Expanded(
-                    child: Text(
-                  _getValue("${timeList[index]}", "title"),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                )),
-                SizedBox(
-                  width: 16.w,
-                ),
-                Text(
-                  "Income"==_getValue("${timeList[index]}", "category")?"\$${_getValue("${timeList[index]}", "amount")}":"-\$${_getValue("${timeList[index]}", "amount")}",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: index % 2 == 1
-                          ? Colors.black
-                          : ColorsUtil.color_0068FF),
-                ),
-                SizedBox(
-                  width: 37.w,
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  String _getValue(String key, String detail) {
-    String? oldJson = CacheUtil.expenseMap[key];
-    LogUtil.v("oldJson：$oldJson");
-
-    List<String> ss = oldJson!.split("%");
-    // "$date%$category%$amount%$title%index";
-    if (detail == "date") {
-      return ss[0];
-    } else if (detail == "category") {
-      return ss[1];
-    } else if (detail == "amount") {
-      return ss[2];
-    } else if (detail == "title") {
-      return ss[3];
-    } else if (detail == "index") {
-      return ss[4];
-    } else {
-      return "0";
-    }
   }
 
   @override

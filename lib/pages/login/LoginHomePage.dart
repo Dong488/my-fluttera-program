@@ -4,6 +4,7 @@ import 'package:flutter_account/pages/login/ForgetPswPage.dart';
 import 'package:flutter_account/pages/login/LoginPage.dart';
 import 'package:flutter_account/pages/login/RegistPage.dart';
 import 'package:flutter_account/utils/NavigateUtil.dart';
+import 'package:flutter_account/utils/ToastUtil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../utils/ColorsUtil.dart';
@@ -11,8 +12,6 @@ import '../../utils/MyFontConstant.dart';
 import '../../views/CustomButton.dart';
 
 class LoginHomePage extends StatefulWidget {
-  const LoginHomePage({super.key});
-
   @override
   State<StatefulWidget> createState() {
     return LoginHomePageState();
@@ -33,7 +32,7 @@ class LoginHomePageState extends BaseState<LoginHomePage> {
         height: double.infinity,
         width: double.infinity,
         child: Center(
-          child: SizedBox(
+          child: Container(
             height: 620.h,
             child: Column(
               children: [
@@ -59,7 +58,7 @@ class LoginHomePageState extends BaseState<LoginHomePage> {
                   buttonRadius: 30.r,
                   buttonFont: MyFontConstant.font_log_in,
                   buttonBackgroundColor: ColorsUtil.primaryColor,
-                  onTab: () => {NavigateUtil.offAll(const LoginPage())},
+                  onTab: () => {NavigateUtil.offAll(LoginPage())},
                 ),
                 SizedBox(height: 12.h,),
                 CustomButton(
@@ -69,14 +68,14 @@ class LoginHomePageState extends BaseState<LoginHomePage> {
                   buttonFont: MyFontConstant.font_sign_up,
                   buttonBackgroundColor: ColorsUtil.color_DFF7E2,
                   buttonFontColor: Colors.black,
-                  onTab: () => {NavigateUtil.offAll(const RegistPage())},
+                  onTab: () => {NavigateUtil.offAll(RegistPage())},
                 ),
                 SizedBox(height: 12.h,),
                 GestureDetector(
                   onTap: ()=>{
-                    NavigateUtil.to(const ForgetPswPage())
+                    NavigateUtil.to(ForgetPswPage())
                   },
-                  child: const Text(MyFontConstant.font_forPws,style: TextStyle(fontWeight: FontWeight.bold),))
+                  child: Text(MyFontConstant.font_forPws,style: TextStyle(fontWeight: FontWeight.bold),))
               ],
             ),
           ),

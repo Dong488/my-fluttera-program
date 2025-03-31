@@ -11,8 +11,6 @@ import '../../controllers/MainController.dart';
 import '../../utils/ColorsUtil.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -30,13 +28,12 @@ class MainPageState extends BaseState {
 
   @override
   Widget localBuild(BuildContext context) {
-    List<Widget> pageList=[HomePage(), AnalysisPage(), TransactionPage(),const MinePage()];
     return Scaffold(
       body: PageView(
         controller: controller.pageController,
         physics: const NeverScrollableScrollPhysics(), //禁止滑动
         //顶部视图
-        children: pageList,
+        children: [HomePage(), AnalysisPage(), TransactionPage(),MinePage()],
       ),
       bottomNavigationBar: GetBuilder(
         builder: (MainController controller) {
@@ -45,12 +42,6 @@ class MainPageState extends BaseState {
               //选中的下标
               controller.jumpToPage(index);
               print('heihei$index');
-
-              if(index==0){
-                (pageList[0] as HomePage).refresh();
-              }else if(index==1){
-                (pageList[1] as AnalysisPage).refresh();
-              }
               // if(index==0){
               //   setStateColor(true);
               // }else if(index==1){
@@ -61,11 +52,11 @@ class MainPageState extends BaseState {
             },
             currentIndex: controller.currentIndex,
             selectedItemColor: ColorsUtil.primaryColor,
-            unselectedItemColor: const Color(0xFF4B4D5E),
+            unselectedItemColor: Color(0xFF4B4D5E),
             selectedFontSize: 11.sp,
             unselectedFontSize: 11.sp,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
             items: [
               BottomNavigationBarItem(
                   label: "",
